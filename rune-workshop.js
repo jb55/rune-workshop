@@ -83,6 +83,23 @@ function render_time_restriction()
 	`
 }
 
+function change_id(el)
+{
+	const r = STATE.restrictions = STATE.restrictions || {}
+
+	r.id = el.value
+
+	update_command(r)
+}
+
+function render_id_restriction()
+{
+	return `
+	<span class="param-name">Node ID</span>
+	<input style="width: 100%" type="text" onkeyup="change_id(this)" id="id-input"></input>
+	`
+}
+
 function render_rate_restriction()
 {
 	return `
@@ -104,6 +121,9 @@ function render_generic_restrictions_section(rpcs)
 {
 	return `
 	<h2>Restrictions</h2>
+	<div>
+		${render_id_restriction()}
+	</div>
 	<div>
 		${render_time_restriction()}
 	</div>
@@ -300,6 +320,10 @@ function build_command(r)
 
 	if (r.time) {
 		rs.push(restriction(`time<${r.time}`))
+	}
+
+	if (r.id) {
+		rs.push(restriction(`id=${r.id}`))
 	}
 
 	const out = JSON.stringify(rs)
