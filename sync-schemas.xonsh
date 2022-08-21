@@ -1,0 +1,26 @@
+#!/usr/bin/env xonsh
+
+import os
+import json
+import sys
+
+# fetch latest
+rm -rf lightning-master
+curl -sL https://github.com/ElementsProject/lightning/archive/master.tar.gz > lightning.tar.gz
+tar xf lightning.tar.gz
+
+schemas = $(ls -1 lightning-master/doc/schemas/*.request.json).strip().split("\n")
+
+out = {}
+for schema in schemas:
+	filename = os.path.basename(schema)
+	[method,_,_] = filename.split(".")
+	with open(schema) as f:
+		content = "".join(f.readlines())
+		out[method] = json.loads(content)
+
+
+print("Writing schemas.json", file=sys.stderr)
+
+with open("schemas.json", "w") as f:
+	f.write(json.dumps(out))

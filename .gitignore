@@ -1,0 +1,5 @@
+lightning-master/
+lightning.tar.gz
+.direnv/
+.envrc
+shell.nix
