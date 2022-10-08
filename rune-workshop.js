@@ -292,7 +292,7 @@ function update_command(r)
 	command_el.value = build_command(r)
 }
 
-function restriction(v, old=true) {
+function restriction(v, old=false) {
 	if (old) {
 		return v
 	} else {
